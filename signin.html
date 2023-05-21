@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style2.css">
+    <a href="index.html">
+        <img src="logo.png" alt="logo" style="width:100px;height:100px;">
+      </a>
+      <style>
+        body {
+          background-image: url('forest2.jpg');
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+          background-size: 100% 100%;
+        }
+        </style>
+
+<title>Sign In</title>
+</head>
+<body>
+    <p width=600px style="text-align:center ; font-size:30px"><b>The Arbor Project</b> </p>
+
+
+    <img src="bhtree0.png" alt="bhtree" style="position:fixed; height:400px; width:400px; top:200px">
+
+    <h1 style="font-size:40px">Create Account</h1>
+    <div id= "myModalSIGNUP" class= "modal" style="text-align:center;">
+        <div class= "modal-content">
+            <h4  style="font-size:25px; color:white">Sign up:</h4><br />
+            <form id= "signup-form">
+                <div class="input-field">
+                    <label for="signup-email"  style="font-size:30px; color:white">Email:</label>
+                    <input type="email" id="signup-email" required />
+                </div>
+                <br>
+                <div class="input-field">
+                    <label for="signup-password" style="font-size:30px; color:white">Password:</label>
+                    <input type="password" id="signup-password" required />
+                </div>
+                <br>
+                <br>
+                <input type="submit" value="Create Account" class="sub" id="submit" style="font-size:20px; color:#a3cb8f">
+            </form>
+        </div>
+        <br>
+    </div>
+    <div id= "myModalLOGIN" class= "modal" style="text-align:center;">
+        <div class= "modal-content">
+            <h4  style="font-size:25px; color:white">Login:</h4><br />
+            <form id= "login-form">
+                <div class="input-field">
+                    <label for="login-email"  style="font-size:30px; color:white">Email:</label>
+                    <input type="email" id="login-email" required />
+                </div>
+                <br>
+                <div class="input-field">
+                    <label for="login-password" style="font-size:30px; color:white">Password:</label>
+                    <input type="password" id="login-password" required />
+                </div>
+                <br>
+                <br>
+                <input type="submit" value="Login" class="sub" id="submit" style="font-size:20px; color:#a3cb8f">
+            </form>
+        </div>
+    </div>
+    <br>        
+    <br>        
+    <br>
+
+    <div id="userCountContainer">
+        <h1 id="userCountHeading"></h1>
+    </div>
+
+
+
+    <script type = "module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js'
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js'
+        const firebaseConfig = {
+            apiKey: "AIzaSyD5L-HcS-hzsGgmY7M15SDoruifRFUxVcA",
+            authDomain: "biohack2.firebaseapp.com",
+            databaseURL: "https://biohack2-default-rtdb.firebaseio.com",
+            projectId: "biohack2",
+            storageBucket: "biohack2.appspot.com",
+            messagingSenderId: "213407562472",
+            appId: "1:213407562472:web:cafebf39255cb4a9e7275d"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const signupForm = document.getElementById('signup-form');
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                alert('Signed up!');
+                console.log('Signed up: ', user);
+                window.location.href = "checklist.html";
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.error('Sign up error: ', errorCode, errorMessage);
+                alert('Signup error.');
+            });
+        });
+    
+        const loginForm = document.getElementById('login-form');
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const lEmail = document.getElementById('login-email').value;
+            const lPassword = document.getElementById('login-password').value;
+            signInWithEmailAndPassword(auth, lEmail, lPassword)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                alert('Logged in!');
+                console.log('Logged in user: ', user);
+                window.location.href = "checklist.html";
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.error('Login error: ', errorCode, errorMessage);
+                alert('Login error.');
+            });
+    
+        });
+      </script>
+    </body>
+</html>
